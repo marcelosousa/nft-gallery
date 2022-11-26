@@ -40,9 +40,46 @@
             :prefix="urlPrefix"
             :account="nft?.currentOwner || ''" />
         </div>
-
         <!-- LINE DIVIDER -->
         <hr />
+        <div
+          class="is-flex is-align-items-center is-justify-content-space-between">
+          <div class="is-flex is-flex-direction-column">
+            <div class="label mb-0">
+              {{ $t('price') }}
+            </div>
+            <CommonTokenMoney
+              :value="nft?.price"
+              inline
+              data-cy="money"
+              class="heading heading-is-2" />
+          </div>
+
+          <div class="is-flex is-flex-direction-column">
+            <template v-if="accountId">
+              <!-- <TheButton :label="$t('buy')" class="gallery-btn" />
+              <TheButton
+                class="mt-5"
+                :label="$t('nft.event.MAKE_OFFER')"
+                type="is-secondary gallery-btn " /> -->
+              <AvailableActionsBsx
+                ref="actions"
+                :account-id="accountId"
+                :is-owner="isOwnerValue"
+                :current-owner-id="nft?.currentOwner"
+                :price="nft?.price"
+                :nft-id="nft?.id"
+                :delegate-id="nft?.delegate"
+                :collection-id="nft?.collection.id"
+                :frozen="nft?.isFrozen"
+                :is-make-offers-allowed="true"
+                :is-buy-allowed="isBuyAllowed"
+                :ipfs-hashes="[nft?.image, nft?.animation_url, nft?.metadata]"
+                @change="handleAction" />
+            </template>
+            <ConnectWalletButton v-else label="general.connect_wallet" />
+          </div>
+        </div>
 
         <!-- <p>{{ nft }}</p> -->
         <p>nftImage: {{ nftImage }}</p>
@@ -73,16 +110,17 @@
 </template>
 
 <script setup lang="ts">
-import { IdentityItem, MediaItem } from '@kodadot1/brick'
+import { IdentityItem, MediaItem, TheButton } from '@kodadot1/brick'
 
 import { useGalleryItem } from './useGalleryItem'
 import GalleryItemShareBtn from './GalleryItemShareBtn.vue'
 import GalleryItemMoreActionBtn from './GalleryItemMoreActionBtn.vue'
 import GalleryItemDescription from './GalleryItemDescription.vue'
 import GalleryItemActivity from './GalleryItemActivity.vue'
+import { isOwner } from '@/utils/account'
 
 const { urlPrefix } = usePrefix()
-const { nft, nftImage, nftAnimation, nftMimeType } = useGalleryItem()
+const { nft, nftImage, nftAnimation, nftMimeType }: any = useGalleryItem()
 
 const CarouselTypeRelated = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeRelated.vue')
@@ -90,6 +128,37 @@ const CarouselTypeRelated = defineAsyncComponent(
 const CarouselTypeVisited = defineAsyncComponent(
   () => import('@/components/carousel/CarouselTypeVisited.vue')
 )
+
+const CommonTokenMoney = defineAsyncComponent(
+  () => import('@/components/shared/CommonTokenMoney.vue')
+)
+
+const ConnectWalletButton = defineAsyncComponent(
+  () => import('@/components/shared/ConnectWalletButton.vue')
+)
+
+const AvailableActionsBsx = defineAsyncComponent(
+  () => import('@/components/bsx/Gallery/Item/AvailableActions.vue')
+)
+
+const { $store } = useNuxtApp()
+const accountId = $store.getters['getAuthAddress']
+const balance = $store.getters['getAuthBalance']
+
+const isOwnerValue = isOwner(nft?.currentOwner, accountId)
+
+const isBuyAllowed = computed(() => {
+  if (!nft.price) {
+    return false
+  }
+  return parseFloat(balance) > parseFloat(nft.price)
+})
+
+const offersUpdate = ({ offers }) => {
+  // this.isMakeOffersAllowed = !offers.find(({ caller }) => {
+  //   return caller === this.accountId
+  // })
+}
 </script>
 
 <style lang="scss" scoped>

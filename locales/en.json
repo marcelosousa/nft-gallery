@@ -41,7 +41,7 @@
   "grants": "Grants",
   "theatre": "theatre",
   "view": "view",
-  "price": "price",
+  "price": "Price",
   "royalty": "royalty",
   "Instance_tooltip": "Instance is like the identifier of an NFT, like a marketplace ticker. It's a \"short computer-friendly name\"",
   "Minting Settings": "Minting Settings",
@@ -676,7 +676,7 @@
       "SEND": "GIFT",
       "CONSUME": "BURN",
       "BUY": "BUY",
-      "MAKE_OFFER": "MAKE OFFER",
+      "MAKE_OFFER": "Make Offer",
       "DOWNLOAD": "DOWNLOAD",
       "ROYALTY": "ROYALTY",
       "PAY_ROYALTY": "PAY ROYALTY"

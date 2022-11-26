@@ -107,8 +107,8 @@ export const iconResolver: Record<string, DescriptionTuple> = {
   [ShoppingActions.SEND]: ['is-info is-dark'],
   [ShoppingActions.CONSUME]: ['is-danger'],
   [ShoppingActions.LIST]: ['is-light'],
-  [ShoppingActions.BUY]: ['is-success is-dark'],
-  [ShoppingActions.MAKE_OFFER]: ['is-orange'],
+  [ShoppingActions.BUY]: ['is-success is-dark is-primary'],
+  [ShoppingActions.MAKE_OFFER]: ['is-orange is-secondary'],
 }
 
 export const getActionButtonColor = (action: ShoppingActions): string => {

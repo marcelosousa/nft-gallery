@@ -3,7 +3,7 @@
     <!-- properties tab -->
     <o-tab-item value="0" label="Properties" class="py-4">
       <o-table
-        v-if="nftMetadata?.attributes.length"
+        v-if="nftMetadata?.attributes?.length"
         :data="nftMetadata?.attributes"
         hoverable>
         <o-table-column v-slot="props" field="value" label="Trait">

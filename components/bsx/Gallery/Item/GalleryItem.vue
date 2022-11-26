@@ -192,7 +192,7 @@ import { InstanceDetails } from '@polkadot/types/interfaces'
 import { get, set } from 'idb-keyval'
 import { Component, Vue, mixins } from 'nuxt-property-decorator'
 import { getMetadata, getOwner, getPrice, hasAllPallets } from './utils'
-import AvailableActions from './AvailableActions.vue'
+import AvailableActions from './AvailableActionsOld.vue'
 import nftListIdsByCollection from '@/queries/subsquid/general/nftIdListByCollection.graphql'
 import { unwrapSafe } from '@/utils/uniquery'
 import { mapToId } from '@/utils/mappers'
@@ -217,7 +217,7 @@ import { exist } from '@/components/search/exist'
   },
   components: {
     Auth: () => import('@/components/shared/Auth.vue'),
-    AvailableActions: () => import('./AvailableActions.vue'),
+    AvailableActions: () => import('./AvailableActionsOld.vue'),
     Name: () => import('@/components/rmrk/Gallery/Item/Name.vue'),
     Sharing: () => import('@/components/shared/Sharing.vue'),
     VueMarkdown: () => import('vue-markdown-render'),

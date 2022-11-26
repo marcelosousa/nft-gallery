@@ -1,5 +1,5 @@
 <template>
-  <div class="buttons">
+  <div class="buttons is-flex is-flex-direction-column">
     <b-tooltip
       v-for="action in actions"
       :key="action"
@@ -7,22 +7,17 @@
       :active="disableButton(action)"
       position="is-left"
       :label="disabledToolTips[action]">
-      <b-button
+      <TheButton
+        :label="actionLabel(action)"
         :type="iconType(action)"
-        :disabled="disableButton(action)"
-        outlined
-        expanded
-        class="only-border-top"
+        class="gallery-btn"
         :data-cy="action"
-        @click="handleActionSelect(action)">
-        {{ actionLabel(action) }}
-      </b-button>
+        @click="handleActionSelect(action)" />
     </b-tooltip>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator'
+<script setup lang="ts">
 import {
   ShoppingActionToolTips,
   ShoppingActions,
@@ -30,32 +25,39 @@ import {
   getActionButtonLabelKey,
 } from '~/utils/shoppingActions'
 import { TranslateResult } from 'vue-i18n/types'
+import { TheButton } from '@kodadot1/brick'
+import { defineEmits } from '#app'
 
-@Component({})
-export default class ActionList extends Vue {
-  @Prop({ type: Array, required: false }) public actions!: ShoppingActions[]
-  @Prop(Boolean) public isMakeOffersAllowed!: boolean
-  @Prop(String) public price!: string
+const props = defineProps<{
+  actions?: ShoppingActions[]
+  isMakeOffersAllowed?: boolean
+  price?: any
+  disabledToolTips: ShoppingActionToolTips
+}>()
 
-  // keys in `disabledToolTips` are disabled actions. values are their tooltips.
-  @Prop({ type: Object, required: true })
-  public disabledToolTips!: ShoppingActionToolTips
+const emit = defineEmits(['click'])
+const { $i18n } = useNuxtApp()
 
-  @Emit('click')
-  protected handleActionSelect(action: ShoppingActions) {
-    return action
-  }
+const handleActionSelect = (action: ShoppingActions) => {
+  emit('click', action)
+  return action
+}
 
-  public disableButton(action: ShoppingActions): boolean {
-    return Object.keys(this.disabledToolTips).includes(action)
-  }
+const disableButton = (action: ShoppingActions): boolean => {
+  return Object.keys(props.disabledToolTips).includes(action)
+}
 
-  protected iconType(value: ShoppingActions): string {
-    return getActionButtonColor(value)
-  }
+const iconType = (value: ShoppingActions): string => {
+  return getActionButtonColor(value)
+}
 
-  protected actionLabel(action: ShoppingActions): TranslateResult {
-    return this.$t(getActionButtonLabelKey(action, this.price))
-  }
+const actionLabel = (action: ShoppingActions): TranslateResult => {
+  return $i18n.t(getActionButtonLabelKey(action, props.price))
 }
 </script>
+
+<style scoped>
+.gallery-btn {
+  min-width: 160px;
+}
+</style>

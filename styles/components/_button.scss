@@ -4,6 +4,36 @@
 	transition: all 0.3s;
 	color: $scheme-invert;
 	font-family: 'Work Sans';
+
+	&.is-primary {
+		background-color: $k-accent;
+		color: $black;
+		text-transform: capitalize;
+		font-size: 16px;
+		border-radius: 0px;
+		border: 1px solid $black;
+		box-shadow: $primary-shadow;
+		&:hover {
+			background-color: $white;
+			color: $black;
+			border: 1px solid $black;
+		}
+	}
+
+	&.is-secondary {
+		background-color: $k-blue;
+		color: $black;
+		text-transform: capitalize;
+		font-size: 16px;
+		border-radius: 0px;
+		border: 1px solid $black;
+		box-shadow: $primary-shadow;
+		&:hover {
+			background-color: $white;
+			color: $black;
+			border: 1px solid $black;
+		}
+	}
 }
 
 .button.is-text {
