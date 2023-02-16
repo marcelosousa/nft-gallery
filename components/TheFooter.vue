@@ -126,6 +126,11 @@ const menu: Menu[] = [
     url: 'https://docs.kodadot.xyz/ambassador-program/ambassador-intro.html#the-opportunity',
     external: true,
   },
+  {
+    name: $i18n.t('cookie_policy'),
+    url: '/cookie-policy',
+    external: true,
+  },
 ]
 
 const socials = [
